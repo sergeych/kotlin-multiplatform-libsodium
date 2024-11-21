@@ -92,6 +92,15 @@ kotlin {
     runningOnLinuxx86_64 {
         println("Configuring Linux X86-64 targets")
 
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChromeHeadless()
+                    }
+                }
+            }
+        }
 
         js {
             browser {
@@ -557,6 +566,19 @@ kotlin {
         runningOnLinuxx86_64 {
             println("Configuring Linux 64 Bit source sets")
 
+            val wasmJsMain by getting {
+                // TODO: разобраться (и с test)
+                dependencies {
+                    implementation(kotlin(Deps.wasmJs.stdLib))
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(kotlin(Deps.wasmJs.test))
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
 
             val jsMain by getting {
                 dependencies {
@@ -708,6 +730,14 @@ tasks {
 //                showStandardStreams = true
 //            }
 //        }
+
+        // TODO: ваще не жс тест, помогите
+        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
+            testLogging {
+                events("PASSED", "FAILED", "SKIPPED")
+                showStandardStreams = true
+            }
+        }
 
         val jsBrowserTest by getting(KotlinJsTest::class) {
             testLogging {
