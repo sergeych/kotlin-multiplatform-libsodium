@@ -569,13 +569,13 @@ kotlin {
             val wasmJsMain by getting {
                 // TODO: разобраться (и с test)
                 dependencies {
-                    implementation(kotlin(Deps.wasmJs.stdLib))
+                    // implementation(kotlin(Deps.wasmJs.stdLib))
                     implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
                 }
             }
             val wasmJsTest by getting {
                 dependencies {
-                    implementation(kotlin(Deps.wasmJs.test))
+//                    implementation(kotlin(Deps.wasmJs.test))
                     implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
                 }
             }
@@ -732,12 +732,12 @@ tasks {
 //        }
 
         // TODO: ваще не жс тест, помогите
-        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
-            testLogging {
-                events("PASSED", "FAILED", "SKIPPED")
-                showStandardStreams = true
-            }
-        }
+//        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
+//            testLogging {
+//                events("PASSED", "FAILED", "SKIPPED")
+//                showStandardStreams = true
+//            }
+//        }
 
         val jsBrowserTest by getting(KotlinJsTest::class) {
             testLogging {

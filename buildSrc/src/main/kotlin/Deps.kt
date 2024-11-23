@@ -73,8 +73,8 @@ object Deps {
     }
 
     object wasmJs {
-        val stdLib = "stdlib-wasm"
-        val test = "test-wasm"
+//        val stdLib = "stdlib-wasm"
+//        val test = "test-wasm"
         // TODO: написано от балды \/
 //        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.kotlinCoroutines}"
 //        val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${Versions.kotlinSerialization}"
