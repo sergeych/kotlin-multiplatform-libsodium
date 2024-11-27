@@ -4,8 +4,11 @@ import com.ionspin.kotlin.crypto.getSodium
 import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 
-actual typealias Sha256State = Any
-actual typealias Sha512State = Any
+// TODO: проверить, что эти штуки юзаются как жсЭни
+typealias Sha256State = JsAny
+typealias Sha512State = JsAny
+//actual typealias Sha256State = Any
+//actual typealias Sha512State = Any
 
 actual object Hash {
 

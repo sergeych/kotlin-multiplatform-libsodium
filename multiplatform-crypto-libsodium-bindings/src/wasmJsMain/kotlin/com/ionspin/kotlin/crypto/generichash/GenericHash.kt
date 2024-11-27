@@ -11,7 +11,10 @@ import org.khronos.webgl.Uint8Array
  * on 21-Aug-2020
  */
 
-actual typealias GenericHashStateInternal = Any
+
+    //Раз используется как жсЭни, то можно написать = ЖсЭни
+//actual typealias GenericHashStateInternal = Any
+typealias GenericHashStateInternal = JsAny
 
 actual object GenericHash {
     actual fun genericHash(

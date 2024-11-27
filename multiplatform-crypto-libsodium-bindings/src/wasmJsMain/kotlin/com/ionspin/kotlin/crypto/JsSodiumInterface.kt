@@ -10,7 +10,6 @@ import org.khronos.webgl.Uint8Array
  * on 27-May-2020
  */
 @JsModule("libsodium-wrappers-sumo")
-@JsNonModule
 external object JsSodiumInterface {
 
 
@@ -26,13 +25,13 @@ external object JsSodiumInterface {
     // ---- Generic hash ---- // Updateable
 
     @JsName("crypto_generichash_init")
-    fun crypto_generichash_init(key : Uint8Array, hashLength: Int) : dynamic
+    fun crypto_generichash_init(key : Uint8Array, hashLength: Int) : JsAny
 
     @JsName("crypto_generichash_update")
-    fun crypto_generichash_update(state: dynamic, inputMessage: Uint8Array)
+    fun crypto_generichash_update(state: JsAny, inputMessage: Uint8Array)
 
     @JsName("crypto_generichash_final")
-    fun crypto_generichash_final(state: dynamic, hashLength: Int) : Uint8Array
+    fun crypto_generichash_final(state: JsAny, hashLength: Int) : Uint8Array
 
     @JsName("crypto_generichash_keygen")
     fun crypto_generichash_keygen() : Uint8Array
@@ -45,13 +44,13 @@ external object JsSodiumInterface {
     fun crypto_generichash_blake2b(hashLength: Int, inputMessage: Uint8Array, key: Uint8Array): Uint8Array
 
     @JsName("crypto_generichash_blake2b_init")
-    fun crypto_generichash_blake2b_init(key : Uint8Array, hashLength: Int) : dynamic
+    fun crypto_generichash_blake2b_init(key : Uint8Array, hashLength: Int) : JsAny
 
     @JsName("crypto_generichash_blake2b_update")
-    fun crypto_generichash_blake2b_update(state: dynamic, inputMessage: Uint8Array)
+    fun crypto_generichash_blake2b_update(state: JsAny, inputMessage: Uint8Array)
 
     @JsName("crypto_generichash_blake2b_final")
-    fun crypto_generichash_blake2b_final(state: dynamic, hashLength: Int) : Uint8Array
+    fun crypto_generichash_blake2b_final(state: JsAny, hashLength: Int) : Uint8Array
 
     @JsName("crypto_generichash_blake2b_keygen")
     fun crypto_generichash_blake2b_keygen() : Uint8Array
@@ -68,22 +67,22 @@ external object JsSodiumInterface {
 
 
     @JsName("crypto_hash_sha256_init")
-    fun crypto_hash_sha256_init() : dynamic
+    fun crypto_hash_sha256_init() : JsAny
 
     @JsName("crypto_hash_sha256_update")
-    fun crypto_hash_sha256_update(state: dynamic, message: Uint8Array)
+    fun crypto_hash_sha256_update(state: JsAny, message: Uint8Array)
 
     @JsName("crypto_hash_sha256_final")
-    fun crypto_hash_sha256_final(state: dynamic): Uint8Array
+    fun crypto_hash_sha256_final(state: JsAny): Uint8Array
 
     @JsName("crypto_hash_sha512_init")
-    fun crypto_hash_sha512_init() : dynamic
+    fun crypto_hash_sha512_init() : JsAny
 
     @JsName("crypto_hash_sha512_update")
-    fun crypto_hash_sha512_update(state: dynamic, message: Uint8Array)
+    fun crypto_hash_sha512_update(state: JsAny, message: Uint8Array)
 
     @JsName("crypto_hash_sha512_final")
-    fun crypto_hash_sha512_final(state: dynamic): Uint8Array
+    fun crypto_hash_sha512_final(state: JsAny): Uint8Array
 
     //XChaCha20Poly1305 - also in bindings
     //fun crypto_aead_xchacha20poly1305_ietf_encrypt(message: Uint8Array, associatedData: Uint8Array, secretNonce: Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
@@ -92,33 +91,33 @@ external object JsSodiumInterface {
     //XChaCha20Poly1305
     //encrypt
     @JsName("crypto_secretstream_xchacha20poly1305_init_push")
-    fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : dynamic
+    fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : JsAny
     @JsName("crypto_secretstream_xchacha20poly1305_push")
-    fun crypto_secretstream_xchacha20poly1305_push(state: dynamic, message: Uint8Array, associatedData: Uint8Array, tag: UByte) : Uint8Array
+    fun crypto_secretstream_xchacha20poly1305_push(state: JsAny, message: Uint8Array, associatedData: Uint8Array, tag: UByte) : Uint8Array
 
     //decrypt
     @JsName("crypto_secretstream_xchacha20poly1305_init_pull")
-    fun crypto_secretstream_xchacha20poly1305_init_pull(header: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_secretstream_xchacha20poly1305_init_pull(header: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_secretstream_xchacha20poly1305_pull")
-    fun crypto_secretstream_xchacha20poly1305_pull(state: dynamic, ciphertext: Uint8Array, associatedData: Uint8Array) : dynamic
+    fun crypto_secretstream_xchacha20poly1305_pull(state: JsAny, ciphertext: Uint8Array, associatedData: Uint8Array) : JsAny
 
     //keygen and rekey
     @JsName("crypto_secretstream_xchacha20poly1305_keygen")
     fun crypto_secretstream_xchacha20poly1305_keygen() : Uint8Array
     @JsName("crypto_secretstream_xchacha20poly1305_rekey")
-    fun crypto_secretstream_xchacha20poly1305_rekey(state: dynamic)
+    fun crypto_secretstream_xchacha20poly1305_rekey(state: JsAny)
 
     // ---- SecretBox ----
     @JsName("crypto_secretbox_detached")
-    fun crypto_secretbox_detached(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_secretbox_detached(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_secretbox_easy")
     fun crypto_secretbox_easy(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_secretbox_keygen")
     fun crypto_secretbox_keygen() : Uint8Array
     @JsName("crypto_secretbox_open_detached")
-    fun crypto_secretbox_open_detached(ciphertext : Uint8Array, tag : Uint8Array, nonce: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_secretbox_open_detached(ciphertext : Uint8Array, tag : Uint8Array, nonce: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_secretbox_open_easy")
-    fun crypto_secretbox_open_easy(ciphertext : Uint8Array, nonce: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_secretbox_open_easy(ciphertext : Uint8Array, nonce: Uint8Array, key: Uint8Array) : JsAny
 
 
     // ---- SecretBox End ----
@@ -132,7 +131,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_chacha20poly1305_encrypt")
     fun crypto_aead_chacha20poly1305_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_encrypt_detached")
-    fun crypto_aead_chacha20poly1305_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_aead_chacha20poly1305_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_aead_chacha20poly1305_ietf_decrypt")
     fun crypto_aead_chacha20poly1305_ietf_decrypt(nsec : Uint8Array?, ciphertext: Uint8Array, associatedData: Uint8Array, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_ietf_decrypt_detached")
@@ -140,7 +139,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_chacha20poly1305_ietf_encrypt")
     fun crypto_aead_chacha20poly1305_ietf_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_ietf_encrypt_detached")
-    fun crypto_aead_chacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_aead_chacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_aead_chacha20poly1305_ietf_keygen")
     fun crypto_aead_chacha20poly1305_ietf_keygen() : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_keygen")
@@ -152,7 +151,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_xchacha20poly1305_ietf_encrypt")
     fun crypto_aead_xchacha20poly1305_ietf_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_xchacha20poly1305_ietf_encrypt_detached")
-    fun crypto_aead_xchacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : dynamic
+    fun crypto_aead_xchacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_aead_xchacha20poly1305_ietf_keygen")
     fun crypto_aead_xchacha20poly1305_ietf_keygen(): Uint8Array
 
@@ -184,9 +183,9 @@ external object JsSodiumInterface {
     // ---- Box ----
 
     @JsName("crypto_box_keypair")
-    fun crypto_box_keypair() : dynamic
+    fun crypto_box_keypair() : JsAny
     @JsName("crypto_box_seed_keypair")
-    fun crypto_box_seed_keypair(seed : Uint8Array) : dynamic
+    fun crypto_box_seed_keypair(seed : Uint8Array) : JsAny
     @JsName("crypto_box_easy")
     fun crypto_box_easy(message: Uint8Array,
                         nonce: Uint8Array,
@@ -201,7 +200,7 @@ external object JsSodiumInterface {
     fun crypto_box_detached(message: Uint8Array,
                             nonce: Uint8Array,
                             recipientsPublicKey: Uint8Array,
-                            sendersSecretKey: Uint8Array) : dynamic
+                            sendersSecretKey: Uint8Array) : JsAny
     @JsName("crypto_box_open_detached")
     fun crypto_box_open_detached(ciphertext: Uint8Array,
                                  tag: Uint8Array,
@@ -239,19 +238,19 @@ external object JsSodiumInterface {
     @JsName("crypto_sign_ed25519_sk_to_seed")
     fun crypto_sign_ed25519_sk_to_seed(ed25519SecretKey: Uint8Array) : Uint8Array
     @JsName("crypto_sign_final_create")
-    fun crypto_sign_final_create(state: dynamic, secretKey: Uint8Array) : Uint8Array
+    fun crypto_sign_final_create(state: JsAny, secretKey: Uint8Array) : Uint8Array
     @JsName("crypto_sign_final_verify")
-    fun crypto_sign_final_verify(state: dynamic, signature: Uint8Array, publicKey: Uint8Array) : Boolean
+    fun crypto_sign_final_verify(state: JsAny, signature: Uint8Array, publicKey: Uint8Array) : Boolean
     @JsName("crypto_sign_init")
-    fun crypto_sign_init() : dynamic
+    fun crypto_sign_init() : JsAny
     @JsName("crypto_sign_keypair")
-    fun crypto_sign_keypair() : dynamic
+    fun crypto_sign_keypair() : JsAny
     @JsName("crypto_sign_open")
     fun crypto_sign_open(signedMessage: Uint8Array, publicKey: Uint8Array) : Uint8Array
     @JsName("crypto_sign_seed_keypair")
-    fun crypto_sign_seed_keypair(seed: Uint8Array) : dynamic
+    fun crypto_sign_seed_keypair(seed: Uint8Array) : JsAny
     @JsName("crypto_sign_update")
-    fun crypto_sign_update(state: dynamic, message: Uint8Array)
+    fun crypto_sign_update(state: JsAny, message: Uint8Array)
     @JsName("crypto_sign_verify_detached")
     fun crypto_sign_verify_detached(signature: Uint8Array, message: Uint8Array, publicKey: Uint8Array) : Boolean
 
@@ -320,13 +319,13 @@ external object JsSodiumInterface {
 
     // ---- Key exchange ----
     @JsName("crypto_kx_client_session_keys")
-    fun crypto_kx_client_session_keys(clientPublicKey: Uint8Array, clientSecretKey: Uint8Array, serverPublicKey: Uint8Array) : dynamic
+    fun crypto_kx_client_session_keys(clientPublicKey: Uint8Array, clientSecretKey: Uint8Array, serverPublicKey: Uint8Array) : JsAny
     @JsName("crypto_kx_keypair")
-    fun crypto_kx_keypair() : dynamic
+    fun crypto_kx_keypair() : JsAny
     @JsName("crypto_kx_seed_keypair")
-    fun crypto_kx_seed_keypair(seed: Uint8Array) : dynamic
+    fun crypto_kx_seed_keypair(seed: Uint8Array) : JsAny
     @JsName("crypto_kx_server_session_keys")
-    fun crypto_kx_server_session_keys(serverPublicKey: Uint8Array, serverSecretKey: Uint8Array, clientPublicKey: Uint8Array) : dynamic
+    fun crypto_kx_server_session_keys(serverPublicKey: Uint8Array, serverSecretKey: Uint8Array, clientPublicKey: Uint8Array) : JsAny
 
     // ---- Key exchange end ----
 
