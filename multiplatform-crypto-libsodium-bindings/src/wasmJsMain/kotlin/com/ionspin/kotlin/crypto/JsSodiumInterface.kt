@@ -9,6 +9,11 @@ import org.khronos.webgl.Uint8Array
  * ugljesa.jovanovic@ionspin.com
  * on 27-May-2020
  */
+
+typealias UByte = Int
+typealias UInt = Long
+
+
 @JsModule("libsodium-wrappers-sumo")
 external object JsSodiumInterface {
 
@@ -93,6 +98,9 @@ external object JsSodiumInterface {
     @JsName("crypto_secretstream_xchacha20poly1305_init_push")
     fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : JsAny
     @JsName("crypto_secretstream_xchacha20poly1305_push")
+    // TODO: два варианта:                      \/
+    //  1. Меняем юбайт на байт и юинт на инт   \/
+    //  2. Меняем юбайт на инт и юинт на лонг   \/    и далее по списку
     fun crypto_secretstream_xchacha20poly1305_push(state: JsAny, message: Uint8Array, associatedData: Uint8Array, tag: UByte) : Uint8Array
 
     //decrypt

@@ -27,14 +27,18 @@ object JsSodiumLoader {
 
     }
 
-    suspend fun load() = suspendCoroutine { continuation ->
+    // TODO: попробовать сделать из этого suspend вместо continuation
+    suspend fun load(): Unit = suspendCoroutine { continuation ->
         if (!getSodiumLoaded()) {
-            _libsodiumPromise.then<dynamic> {
+            _libsodiumPromise.then<JsAny?> {
                 sodium_init()
                 sodiumLoaded = true
+                //Dynamic может быть Юнит, но Unit не может быть JsAny?
                 continuation.resumeWith(Result.success(Unit))
-            }.catch { e ->
+                null
+            }.catch { e->
                 continuation.resumeWith(Result.failure(e))
+                null
             }
         } else {
             continuation.resumeWith(Result.success(Unit))
@@ -43,7 +47,7 @@ object JsSodiumLoader {
 
     fun loadWithCallback(doneCallback: () -> (Unit)) {
         if (!getSodiumLoaded()) {
-            _libsodiumPromise.then<dynamic> {
+            _libsodiumPromise.then<JsAny> {
                 sodium_init()
                 sodiumLoaded = true
                 doneCallback.invoke()
