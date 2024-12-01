@@ -36,8 +36,13 @@ object JsSodiumLoader {
                 //Dynamic может быть Юнит, но Unit не может быть JsAny?
                 continuation.resumeWith(Result.success(Unit))
                 null
-            }.catch { e->
-                continuation.resumeWith(Result.failure(e))
+            }.catch { e ->
+                val throwable = e as? Throwable
+                if (throwable != null) {
+                    continuation.resumeWith(Result.failure(throwable))
+                } else {
+                    continuation.resumeWith(Result.failure(Exception("Error: $e")))
+                }
                 null
             }
         } else {
@@ -45,9 +50,9 @@ object JsSodiumLoader {
         }
     }
 
-    fun loadWithCallback(doneCallback: () -> (Unit)) {
+    fun loadWithCallback(doneCallback: () -> (JsAny)) {
         if (!getSodiumLoaded()) {
-            _libsodiumPromise.then<JsAny> {
+            _libsodiumPromise.then {
                 sodium_init()
                 sodiumLoaded = true
                 doneCallback.invoke()
