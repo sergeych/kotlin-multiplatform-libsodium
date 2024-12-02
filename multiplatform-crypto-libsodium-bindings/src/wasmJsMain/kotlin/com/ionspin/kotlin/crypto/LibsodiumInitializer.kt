@@ -21,10 +21,12 @@ actual object LibsodiumInitializer {
         isPlatformInitialized = true
     }
 
+
     actual fun initializeWithCallback(done: () -> Unit) {
         JsSodiumLoader.loadWithCallback {
             isPlatformInitialized = true
             done()
+            "null".toJsString()
         }
     }
 

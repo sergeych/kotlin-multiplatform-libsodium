@@ -52,7 +52,7 @@ object JsSodiumLoader {
 
     fun loadWithCallback(doneCallback: () -> (JsAny)) {
         if (!getSodiumLoaded()) {
-            _libsodiumPromise.then {
+            _libsodiumPromise.then<JsAny> {
                 sodium_init()
                 sodiumLoaded = true
                 doneCallback.invoke()
