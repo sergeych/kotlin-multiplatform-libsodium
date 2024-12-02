@@ -8,14 +8,14 @@ import org.khronos.webgl.get
  * ugljesa.jovanovic@ionspin.com
  * on 02-Aug-2020
  */
-fun UByteArray.toUInt8Array() : Uint8Array {
-    val uint8Result = Uint8Array(toByteArray().toTypedArray())
-    return uint8Result
+fun UByteArray.toByteArray() : ByteArray {
+//    val uint8Result = ByteArray(toTypedArray())
+    return toByteArray()
 }
 
 
 fun Uint8Array.toUByteArray() : UByteArray {
-    if (length.asDynamic() == undefined) {
+    if (length == null) {
         println("Error")
     }
     val result = UByteArray(length)
