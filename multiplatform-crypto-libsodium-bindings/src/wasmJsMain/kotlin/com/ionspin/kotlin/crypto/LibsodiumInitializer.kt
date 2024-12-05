@@ -26,6 +26,7 @@ actual object LibsodiumInitializer {
         JsSodiumLoader.loadWithCallback {
             isPlatformInitialized = true
             done()
+            // TODO: there's no return needed!!!
             "null".toJsString()
         }
     }

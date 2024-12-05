@@ -13,6 +13,15 @@ fun UByteArray.toByteArray() : ByteArray {
     return toByteArray()
 }
 
+fun UByteArray.toUInt8Array() : Uint8Array {
+    var jsArray = JsArray<JsNumber>()
+    for (i in this.indices) {
+        jsArray[i] = this[i].toInt().toJsNumber()
+    }
+    var uint8Result = Uint8Array(jsArray)
+    return uint8Result
+}
+
 
 fun Uint8Array.toUByteArray() : UByteArray {
     if (length == null) {
