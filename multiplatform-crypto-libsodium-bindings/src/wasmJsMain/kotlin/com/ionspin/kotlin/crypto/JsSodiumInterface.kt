@@ -13,6 +13,10 @@ import org.khronos.webgl.Uint8Array
 typealias UByte = Int
 typealias UInt = Long
 
+external object chacha20poly1305EncryptDetachedResult : JsAny {
+    val ciphertext: Uint8Array
+    var mac: Uint8Array
+}
 
 @JsModule("libsodium-wrappers-sumo")
 external object JsSodiumInterface {
@@ -139,7 +143,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_chacha20poly1305_encrypt")
     fun crypto_aead_chacha20poly1305_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_encrypt_detached")
-    fun crypto_aead_chacha20poly1305_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
+    fun crypto_aead_chacha20poly1305_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : chacha20poly1305EncryptDetachedResult
     @JsName("crypto_aead_chacha20poly1305_ietf_decrypt")
     fun crypto_aead_chacha20poly1305_ietf_decrypt(nsec : Uint8Array?, ciphertext: Uint8Array, associatedData: Uint8Array, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_ietf_decrypt_detached")
@@ -147,7 +151,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_chacha20poly1305_ietf_encrypt")
     fun crypto_aead_chacha20poly1305_ietf_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_ietf_encrypt_detached")
-    fun crypto_aead_chacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
+    fun crypto_aead_chacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : chacha20poly1305EncryptDetachedResult
     @JsName("crypto_aead_chacha20poly1305_ietf_keygen")
     fun crypto_aead_chacha20poly1305_ietf_keygen() : Uint8Array
     @JsName("crypto_aead_chacha20poly1305_keygen")
@@ -159,7 +163,7 @@ external object JsSodiumInterface {
     @JsName("crypto_aead_xchacha20poly1305_ietf_encrypt")
     fun crypto_aead_xchacha20poly1305_ietf_encrypt(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_aead_xchacha20poly1305_ietf_encrypt_detached")
-    fun crypto_aead_xchacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : JsAny
+    fun crypto_aead_xchacha20poly1305_ietf_encrypt_detached(message: Uint8Array, associatedData: Uint8Array, nsec: Uint8Array?, npub: Uint8Array, key: Uint8Array) : chacha20poly1305EncryptDetachedResult
     @JsName("crypto_aead_xchacha20poly1305_ietf_keygen")
     fun crypto_aead_xchacha20poly1305_ietf_keygen(): Uint8Array
 

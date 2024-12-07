@@ -8,7 +8,6 @@ import org.khronos.webgl.Uint8Array
 actual object AuthenticatedEncryptionWithAssociatedData {
 
     // Ietf
-
     // Original chacha20poly1305
     actual fun xChaCha20Poly1305IetfEncrypt(
         message: UByteArray,
@@ -58,8 +57,8 @@ actual object AuthenticatedEncryptionWithAssociatedData {
             key.toUInt8Array(),
         )
         return AeadEncryptedDataAndTag(
-            (result.ciphertext as Uint8Array).toUByteArray(),
-            (result.mac as Uint8Array).toUByteArray()
+            (result.ciphertext).toUByteArray(),
+            (result.mac).toUByteArray()
         )
     }
 

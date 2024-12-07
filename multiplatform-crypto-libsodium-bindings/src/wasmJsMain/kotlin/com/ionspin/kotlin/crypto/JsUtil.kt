@@ -9,7 +9,6 @@ import org.khronos.webgl.get
  * on 02-Aug-2020
  */
 fun UByteArray.toByteArray() : ByteArray {
-//    val uint8Result = ByteArray(toTypedArray())
     return toByteArray()
 }
 
