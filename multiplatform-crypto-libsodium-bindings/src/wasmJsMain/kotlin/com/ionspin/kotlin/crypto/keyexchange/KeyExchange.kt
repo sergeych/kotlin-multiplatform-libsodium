@@ -5,6 +5,7 @@ import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 import org.khronos.webgl.Uint8Array
 
+
 actual object KeyExchange {
     actual fun clientSessionKeys(clientPublicKey: UByteArray, clientSecretKey: UByteArray, serverPublicKey: UByteArray) : KeyExchangeSessionKeyPair {
 
@@ -15,8 +16,9 @@ actual object KeyExchange {
             serverPublicKey.toUInt8Array()
         )
 
-        val receiveKey = (result.sharedRx as Uint8Array).toUByteArray()
-        val sendKey = (result.sharedTx as Uint8Array).toUByteArray()
+        // Он был в dynamic, но его нет в JsAny
+        val receiveKey = result.sharedRx.toUByteArray()
+        val sendKey = result.sharedTx.toUByteArray()
 
 
 
@@ -26,8 +28,8 @@ actual object KeyExchange {
     actual fun keypair() : KeyExchangeKeyPair {
         val result = getSodium().crypto_kx_keypair()
 
-        val publicKey = (result.publicKey as Uint8Array).toUByteArray()
-        val secretKey = (result.privateKey as Uint8Array).toUByteArray()
+        val publicKey = result.publicKey.toUByteArray()
+        val secretKey = result.privateKey.toUByteArray()
 
         return KeyExchangeKeyPair(publicKey, secretKey)
     }
@@ -35,8 +37,8 @@ actual object KeyExchange {
     actual fun seedKeypair(seed: UByteArray) : KeyExchangeKeyPair {
         val result = getSodium().crypto_kx_seed_keypair(seed.toUInt8Array())
 
-        val publicKey = (result.publicKey as Uint8Array).toUByteArray()
-        val secretKey = (result.privateKey as Uint8Array).toUByteArray()
+        val publicKey = result.publicKey.toUByteArray()
+        val secretKey = result.privateKey.toUByteArray()
 
         return KeyExchangeKeyPair(publicKey, secretKey)
     }
@@ -49,8 +51,8 @@ actual object KeyExchange {
             clientPublicKey.toUInt8Array()
         )
 
-        val receiveKey = (result.sharedRx as Uint8Array).toUByteArray()
-        val sendKey = (result.sharedTx as Uint8Array).toUByteArray()
+        val receiveKey = result.sharedRx.toUByteArray()
+        val sendKey = result.sharedTx.toUByteArray()
 
         return KeyExchangeSessionKeyPair(receiveKey, sendKey)
     }

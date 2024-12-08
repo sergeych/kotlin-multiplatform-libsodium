@@ -11,10 +11,13 @@ import org.khronos.webgl.Uint8Array
  * on 21-Aug-2020
  */
 
+// TODO: посмотреть, как оно используется
+external object GenericHashStateInternalType: JsAny
 
     //Раз используется как жсЭни, то можно написать = ЖсЭни
 //actual typealias GenericHashStateInternal = Any
-typealias GenericHashStateInternal = JsAny
+actual typealias GenericHashStateInternal = GenericHashStateInternalType
+
 
 actual object GenericHash {
     actual fun genericHash(
@@ -34,7 +37,7 @@ actual object GenericHash {
         key: UByteArray?
     ): GenericHashState {
         val state = getSodium().crypto_generichash_init(key?.toUInt8Array() ?: Uint8Array(0), requestedHashLength)
-        return GenericHashState(requestedHashLength, state)
+        return GenericHashState(requestedHashLength, state as GenericHashStateInternal)
     }
 
     actual fun genericHashUpdate(

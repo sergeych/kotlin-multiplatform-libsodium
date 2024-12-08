@@ -14,8 +14,8 @@ actual object Box {
     actual fun keypair(): BoxKeyPair {
         val keypair = getSodium().crypto_box_keypair()
         return BoxKeyPair(
-            (keypair.publicKey as Uint8Array).toUByteArray(),
-            (keypair.privateKey as Uint8Array).toUByteArray()
+            (keypair.publicKey).toUByteArray(),
+            (keypair.privateKey).toUByteArray()
         )
     }
 
@@ -25,8 +25,8 @@ actual object Box {
     actual fun seedKeypair(seed: UByteArray): BoxKeyPair {
         val keypair = getSodium().crypto_box_seed_keypair(seed.toUInt8Array())
         return BoxKeyPair(
-            (keypair.publicKey as Uint8Array).toUByteArray(),
-            (keypair.privateKey as Uint8Array).toUByteArray()
+            (keypair.publicKey).toUByteArray(),
+            (keypair.privateKey).toUByteArray()
         )
     }
 
@@ -142,8 +142,8 @@ actual object Box {
             sendersSecretKey.toUInt8Array(),
         )
         return BoxEncryptedDataAndTag(
-            (detached.ciphertext as Uint8Array).toUByteArray(),
-            (detached.mac as Uint8Array).toUByteArray()
+            (detached.ciphertext).toUByteArray(),
+            (detached.mac).toUByteArray()
         )
     }
 

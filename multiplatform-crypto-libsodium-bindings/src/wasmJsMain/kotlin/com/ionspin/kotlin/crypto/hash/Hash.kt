@@ -5,10 +5,15 @@ import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 
 // TODO: проверить, что эти штуки юзаются как жсЭни
-typealias Sha256State = JsAny
-typealias Sha512State = JsAny
+//typealias Sha256State = JsAny
+//typealias Sha512State = JsAny
 //actual typealias Sha256State = Any
 //actual typealias Sha512State = Any
+
+external object Sha256StateType: JsAny
+
+actual typealias Sha256State = Sha256StateType
+actual typealias Sha512State = Sha256StateType
 
 actual object Hash {
 
@@ -17,7 +22,7 @@ actual object Hash {
     }
 
     actual fun sha256Init(): Sha256State {
-        return getSodium().crypto_hash_sha256_init()
+        return getSodium().crypto_hash_sha256_init() as Sha256State
     }
 
     actual fun sha256Update(state: Sha256State, data: UByteArray) {
@@ -33,7 +38,7 @@ actual object Hash {
     }
 
     actual fun sha512Init(): Sha512State {
-        return getSodium().crypto_hash_sha512_init()
+        return getSodium().crypto_hash_sha512_init() as Sha512State
     }
 
     actual fun sha512Update(state: Sha512State, data: UByteArray) {
