@@ -26,12 +26,12 @@ actual object PasswordHash {
             throw RuntimeException("Javascript doesnt support more than ${UInt.MAX_VALUE} for opslimit")
         }
         return getSodium().crypto_pwhash(
-            outputLength.toUInt(),
+            outputLength.toLong(),
             password.encodeToUByteArray().toUInt8Array(),
             salt.toUInt8Array(),
-            opsLimit.toUInt(),
-            memLimit.toUInt(),
-            algorithm.toUInt()
+            opsLimit.toLong(),
+            memLimit.toLong(),
+            algorithm.toLong()
         ).toUByteArray()
     }
 
@@ -51,8 +51,8 @@ actual object PasswordHash {
         }
         return getSodium().crypto_pwhash_str(
             password.encodeToUByteArray().toUInt8Array(),
-            opslimit.toUInt(),
-            memlimit.toUInt()
+            opslimit.toLong(),
+            memlimit.toLong()
         )
     }
 
@@ -73,8 +73,8 @@ actual object PasswordHash {
         return if (
             getSodium().crypto_pwhash_str_needs_rehash(
                 passwordHash,
-                opslimit.toUInt(),
-                memlimit.toUInt()
+                opslimit.toLong(),
+                memlimit.toLong()
             )
         ) {
             1

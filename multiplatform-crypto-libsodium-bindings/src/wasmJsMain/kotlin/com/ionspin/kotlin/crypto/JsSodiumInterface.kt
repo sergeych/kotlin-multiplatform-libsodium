@@ -48,6 +48,23 @@ external object CryptoKxServerSessionKeysResult: JsAny {
     val sharedTx: Uint8Array
 }
 
+external object CryptoSecretboxDetachedResult: JsAny {
+    val cipher: Uint8Array
+    val mac: Uint8Array
+}
+
+external object CryptoSecretstreamXchacha20poly1305InitPushResult: JsAny {
+    val state: Uint8Array
+    val header: Uint8Array
+}
+
+external object CryptoSecretstreamXchacha20poly1305PullResult: JsAny {
+    val message: Uint8Array
+    val tag: UByte
+}
+
+
+
 @JsModule("libsodium-wrappers-sumo")
 external object JsSodiumInterface {
 
@@ -87,7 +104,8 @@ external object JsSodiumInterface {
 
     @JsName("crypto_generichash_blake2b_update")
     fun crypto_generichash_blake2b_update(state: JsAny, inputMessage: Uint8Array)
-
+    // TODO: строка ниже просто висела без ничего, я ее закомментила
+//crypto_secretstream_xchacha20poly1305_init_push
     @JsName("crypto_generichash_blake2b_final")
     fun crypto_generichash_blake2b_final(state: JsAny, hashLength: Int) : Uint8Array
 
@@ -130,7 +148,7 @@ external object JsSodiumInterface {
     //XChaCha20Poly1305
     //encrypt
     @JsName("crypto_secretstream_xchacha20poly1305_init_push")
-    fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : JsAny
+    fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : CryptoSecretstreamXchacha20poly1305InitPushResult
     @JsName("crypto_secretstream_xchacha20poly1305_push")
     // TODO: два варианта:                      \/
     //  1. Меняем юбайт на байт и юинт на инт   \/
@@ -141,7 +159,7 @@ external object JsSodiumInterface {
     @JsName("crypto_secretstream_xchacha20poly1305_init_pull")
     fun crypto_secretstream_xchacha20poly1305_init_pull(header: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_secretstream_xchacha20poly1305_pull")
-    fun crypto_secretstream_xchacha20poly1305_pull(state: JsAny, ciphertext: Uint8Array, associatedData: Uint8Array) : JsAny
+    fun crypto_secretstream_xchacha20poly1305_pull(state: JsAny, ciphertext: Uint8Array, associatedData: Uint8Array) : CryptoSecretstreamXchacha20poly1305PullResult
 
     //keygen and rekey
     @JsName("crypto_secretstream_xchacha20poly1305_keygen")
@@ -151,7 +169,7 @@ external object JsSodiumInterface {
 
     // ---- SecretBox ----
     @JsName("crypto_secretbox_detached")
-    fun crypto_secretbox_detached(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : JsAny
+    fun crypto_secretbox_detached(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : CryptoSecretboxDetachedResult
     @JsName("crypto_secretbox_easy")
     fun crypto_secretbox_easy(message: Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_secretbox_keygen")

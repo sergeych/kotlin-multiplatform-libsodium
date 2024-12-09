@@ -42,8 +42,8 @@ actual object SecretBox {
             key.toUInt8Array()
         )
         return SecretBoxEncryptedDataAndTag(
-            (result.cipher as Uint8Array).toUByteArray(),
-            (result.mac as Uint8Array).toUByteArray()
+            result.cipher.toUByteArray(),
+            result.mac.toUByteArray()
         )
     }
 
