@@ -1,15 +1,11 @@
 package com.ionspin.kotlin.crypto.secretstream
 
 import com.ionspin.kotlin.crypto.getSodium
+import ext.libsodium.com.ionspin.kotlin.crypto.CryptoSecretstreamXchacha20poly1305PullResult
 import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 import org.khronos.webgl.Uint8Array
 
-//TODO: вынести все external objects в отдельный файл (и в JsSodiumInterface.kt)
-external object CryptoSecretstreamXchacha20poly1305PullResult: JsAny {
-    val message: Uint8Array
-    val tag: Byte
-}
 
 external object SecretStreamStateType: JsAny
 

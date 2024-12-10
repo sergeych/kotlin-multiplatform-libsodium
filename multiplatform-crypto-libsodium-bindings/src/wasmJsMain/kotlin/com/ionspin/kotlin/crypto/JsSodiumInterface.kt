@@ -10,61 +10,6 @@ import org.khronos.webgl.Uint8Array
  * on 27-May-2020
  */
 
-typealias UByte = Int
-typealias UInt = Long
-
-external object Chacha20poly1305EncryptDetachedResult : JsAny {
-    val ciphertext: Uint8Array
-    var mac: Uint8Array
-}
-
-external object CryptoBoxDetachedResult : JsAny {
-    val ciphertext: Uint8Array
-    var mac: Uint8Array
-}
-
-external object CryptoBoxKeypairResult: JsAny {
-    val publicKey: Uint8Array
-    val privateKey: Uint8Array
-}
-
-external object CryptoKxClientSessionKeysResult: JsAny {
-    val sharedRx: Uint8Array
-    val sharedTx: Uint8Array
-}
-
-external object CryptoKxKeypairResult: JsAny {
-    val publicKey: Uint8Array
-    val privateKey: Uint8Array
-}
-
-external object CryptoKxSeedKeypairResult: JsAny {
-    val publicKey: Uint8Array
-    val privateKey: Uint8Array
-}
-
-external object CryptoKxServerSessionKeysResult: JsAny {
-    val sharedRx: Uint8Array
-    val sharedTx: Uint8Array
-}
-
-external object CryptoSecretboxDetachedResult: JsAny {
-    val cipher: Uint8Array
-    val mac: Uint8Array
-}
-
-external object CryptoSecretstreamXchacha20poly1305InitPushResult: JsAny {
-    val state: Uint8Array
-    val header: Uint8Array
-}
-
-external object CryptoSecretstreamXchacha20poly1305PullResult: JsAny {
-    val message: Uint8Array
-    val tag: UByte
-}
-
-
-
 @JsModule("libsodium-wrappers-sumo")
 external object JsSodiumInterface {
 
@@ -153,13 +98,13 @@ external object JsSodiumInterface {
     // TODO: два варианта:                      \/
     //  1. Меняем юбайт на байт и юинт на инт   \/
     //  2. Меняем юбайт на инт и юинт на лонг   \/    и далее по списку
-    fun crypto_secretstream_xchacha20poly1305_push(state: JsAny, message: Uint8Array, associatedData: Uint8Array, tag: UByte) : Uint8Array
+    fun crypto_secretstream_xchacha20poly1305_push(state: JsAny, message: Uint8Array, associatedData: Uint8Array, tag: Byte) : Uint8Array
 
     //decrypt
     @JsName("crypto_secretstream_xchacha20poly1305_init_pull")
     fun crypto_secretstream_xchacha20poly1305_init_pull(header: Uint8Array, key: Uint8Array) : JsAny
     @JsName("crypto_secretstream_xchacha20poly1305_pull")
-    fun crypto_secretstream_xchacha20poly1305_pull(state: JsAny, ciphertext: Uint8Array, associatedData: Uint8Array) : CryptoSecretstreamXchacha20poly1305PullResult
+    fun crypto_secretstream_xchacha20poly1305_pull(state: JsAny, ciphertext: Uint8Array, associatedData: Uint8Array) : JsAny
 
     //keygen and rekey
     @JsName("crypto_secretstream_xchacha20poly1305_keygen")
@@ -243,9 +188,9 @@ external object JsSodiumInterface {
     // ---- Box ----
 
     @JsName("crypto_box_keypair")
-    fun crypto_box_keypair() : CryptoBoxKeypairResult
+    fun crypto_box_keypair() : Keypair
     @JsName("crypto_box_seed_keypair")
-    fun crypto_box_seed_keypair(seed : Uint8Array) : CryptoBoxKeypairResult
+    fun crypto_box_seed_keypair(seed : Uint8Array) : Keypair
     @JsName("crypto_box_easy")
     fun crypto_box_easy(message: Uint8Array,
                         nonce: Uint8Array,
@@ -302,13 +247,13 @@ external object JsSodiumInterface {
     @JsName("crypto_sign_final_verify")
     fun crypto_sign_final_verify(state: JsAny, signature: Uint8Array, publicKey: Uint8Array) : Boolean
     @JsName("crypto_sign_init")
-    fun crypto_sign_init() : JsAny
+    fun crypto_sign_init() : SignatureStateType
     @JsName("crypto_sign_keypair")
-    fun crypto_sign_keypair() : JsAny
+    fun crypto_sign_keypair() : Keypair
     @JsName("crypto_sign_open")
     fun crypto_sign_open(signedMessage: Uint8Array, publicKey: Uint8Array) : Uint8Array
     @JsName("crypto_sign_seed_keypair")
-    fun crypto_sign_seed_keypair(seed: Uint8Array) : JsAny
+    fun crypto_sign_seed_keypair(seed: Uint8Array) : Keypair
     @JsName("crypto_sign_update")
     fun crypto_sign_update(state: JsAny, message: Uint8Array)
     @JsName("crypto_sign_verify_detached")
@@ -321,7 +266,7 @@ external object JsSodiumInterface {
     // ---- KDF ----
 
     @JsName("crypto_kdf_derive_from_key")
-    fun crypto_kdf_derive_from_key(subkey_len: UInt, subkeyId : UInt, ctx: String, key: Uint8Array) : Uint8Array
+    fun crypto_kdf_derive_from_key(subkey_len: Int, subkeyId : Int, ctx: String, key: Uint8Array) : Uint8Array
     @JsName("crypto_kdf_keygen")
     fun crypto_kdf_keygen() : Uint8Array
 
@@ -330,11 +275,11 @@ external object JsSodiumInterface {
     // ---- Password hashing ----
 
     @JsName("crypto_pwhash")
-    fun crypto_pwhash(keyLength : UInt, password : Uint8Array, salt: Uint8Array, opsLimit: UInt, memLimit: UInt, algorithm: UInt) : Uint8Array
+    fun crypto_pwhash(keyLength : Int, password : Uint8Array, salt: Uint8Array, opsLimit: Int, memLimit: Int, algorithm: Int) : Uint8Array
     @JsName("crypto_pwhash_str")
-    fun crypto_pwhash_str(password: Uint8Array, opsLimit: UInt, memLimit: UInt) : String
+    fun crypto_pwhash_str(password: Uint8Array, opsLimit: Int, memLimit: Int) : String
     @JsName("crypto_pwhash_str_needs_rehash")
-    fun crypto_pwhash_str_needs_rehash(hashedPassword: String, opsLimit: UInt, memLimit: UInt) : Boolean
+    fun crypto_pwhash_str_needs_rehash(hashedPassword: String, opsLimit: Int, memLimit: Int) : Boolean
     @JsName("crypto_pwhash_str_verify")
     fun crypto_pwhash_str_verify(hashedPassword: String, password: Uint8Array) : Boolean
 
@@ -369,11 +314,11 @@ external object JsSodiumInterface {
     @JsName("randombytes_buf")
     fun randombytes_buf(length: Int) : Uint8Array
     @JsName("randombytes_buf_deterministic")
-    fun randombytes_buf_deterministic(length: UInt, seed : Uint8Array) : Uint8Array
+    fun randombytes_buf_deterministic(length: Int, seed : Uint8Array) : Uint8Array
     @JsName("randombytes_random")
-    fun randombytes_random() : UInt
+    fun randombytes_random() : Int
     @JsName("randombytes_uniform")
-    fun randombytes_uniform(upper_bound: UInt) : UInt
+    fun randombytes_uniform(upper_bound: Int) : Int
 
     // ---- Utils end ----
 
@@ -381,9 +326,9 @@ external object JsSodiumInterface {
     @JsName("crypto_kx_client_session_keys")
     fun crypto_kx_client_session_keys(clientPublicKey: Uint8Array, clientSecretKey: Uint8Array, serverPublicKey: Uint8Array) : CryptoKxClientSessionKeysResult
     @JsName("crypto_kx_keypair")
-    fun crypto_kx_keypair() : CryptoKxKeypairResult
+    fun crypto_kx_keypair() : Keypair
     @JsName("crypto_kx_seed_keypair")
-    fun crypto_kx_seed_keypair(seed: Uint8Array) : CryptoKxSeedKeypairResult
+    fun crypto_kx_seed_keypair(seed: Uint8Array) : Keypair
     @JsName("crypto_kx_server_session_keys")
     fun crypto_kx_server_session_keys(serverPublicKey: Uint8Array, serverSecretKey: Uint8Array, clientPublicKey: Uint8Array) : CryptoKxServerSessionKeysResult
 
@@ -391,24 +336,24 @@ external object JsSodiumInterface {
 
     // -- Stream ----
     @JsName("crypto_stream_chacha20")
-    fun crypto_stream_chacha20(outLength: UInt, key: Uint8Array, nonce: Uint8Array) : Uint8Array
+    fun crypto_stream_chacha20(outLength: Int, key: Uint8Array, nonce: Uint8Array) : Uint8Array
     @JsName("crypto_stream_chacha20_ietf_xor")
     fun crypto_stream_chacha20_ietf_xor(message : Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_stream_chacha20_ietf_xor_ic")
-    fun crypto_stream_chacha20_ietf_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: UInt, key: Uint8Array) : Uint8Array
+    fun crypto_stream_chacha20_ietf_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: Int, key: Uint8Array) : Uint8Array
     @JsName("crypto_stream_chacha20_keygen")
     fun crypto_stream_chacha20_keygen() : Uint8Array
     @JsName("crypto_stream_chacha20_xor")
     fun crypto_stream_chacha20_xor(message : Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_stream_chacha20_xor_ic")
-    fun crypto_stream_chacha20_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: UInt, key: Uint8Array) : Uint8Array
+    fun crypto_stream_chacha20_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: Int, key: Uint8Array) : Uint8Array
 
     @JsName("crypto_stream_xchacha20_keygen")
     fun crypto_stream_xchacha20_keygen() : Uint8Array
     @JsName("crypto_stream_xchacha20_xor")
     fun crypto_stream_xchacha20_xor(message : Uint8Array, nonce: Uint8Array, key: Uint8Array) : Uint8Array
     @JsName("crypto_stream_xchacha20_xor_ic")
-    fun crypto_stream_xchacha20_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: UInt, key: Uint8Array) : Uint8Array
+    fun crypto_stream_xchacha20_xor_ic(message : Uint8Array, nonce: Uint8Array, initialCounter: Int, key: Uint8Array) : Uint8Array
 
     // ---- Stream end ----
 

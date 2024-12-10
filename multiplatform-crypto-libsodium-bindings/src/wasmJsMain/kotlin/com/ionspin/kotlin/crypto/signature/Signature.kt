@@ -1,11 +1,14 @@
 package com.ionspin.kotlin.crypto.signature
 
 import com.ionspin.kotlin.crypto.getSodium
+import ext.libsodium.com.ionspin.kotlin.crypto.SignatureStateType
 import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 import org.khronos.webgl.Uint8Array
 
-actual typealias SignatureState = Any
+
+
+actual typealias SignatureState = SignatureStateType
 
 actual object Signature {
     actual fun init(): SignatureState {
@@ -48,8 +51,8 @@ actual object Signature {
     actual fun keypair(): SignatureKeyPair {
         val keypair = getSodium().crypto_sign_keypair()
         return SignatureKeyPair(
-            (keypair.publicKey as Uint8Array).toUByteArray(),
-            (keypair.privateKey as Uint8Array).toUByteArray()
+            keypair.publicKey.toUByteArray(),
+            keypair.privateKey.toUByteArray()
         )
     }
 
@@ -61,8 +64,8 @@ actual object Signature {
     actual fun seedKeypair(seed: UByteArray): SignatureKeyPair {
         val keypair = getSodium().crypto_sign_seed_keypair(seed.toUInt8Array())
         return SignatureKeyPair(
-            (keypair.publicKey as Uint8Array).toUByteArray(),
-            (keypair.privateKey as Uint8Array).toUByteArray()
+            keypair.publicKey.toUByteArray(),
+            keypair.privateKey.toUByteArray()
         )
     }
 
