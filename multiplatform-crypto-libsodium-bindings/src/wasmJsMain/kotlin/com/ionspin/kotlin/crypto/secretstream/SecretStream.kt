@@ -5,6 +5,12 @@ import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
 import org.khronos.webgl.Uint8Array
 
+//TODO: вынести все external objects в отдельный файл (и в JsSodiumInterface.kt)
+external object CryptoSecretstreamXchacha20poly1305PullResult: JsAny {
+    val message: Uint8Array
+    val tag: Byte
+}
+
 external object SecretStreamStateType: JsAny
 
 actual typealias SecretStreamState = SecretStreamStateType
@@ -22,7 +28,7 @@ actual object SecretStream {
         tag: UByte
     ): UByteArray {
         return getSodium().crypto_secretstream_xchacha20poly1305_push(
-            state, message.toUInt8Array(), associatedData.toUInt8Array(), tag.toInt()
+            state, message.toUInt8Array(), associatedData.toUInt8Array(), tag.toByte()
         ).toUByteArray()
     }
 
@@ -42,12 +48,10 @@ actual object SecretStream {
         val dataAndTag = getSodium().crypto_secretstream_xchacha20poly1305_pull(
             state, ciphertext.toUInt8Array(), associatedData.toUInt8Array()
         )
-        // TODO: cast definitely will succeed (i hope),
-        //       but it needs to be checked \/ i'm not sure about this move
-        if (dataAndTag as Boolean == false) {
+        if (dataAndTag as? JsBoolean == false.toJsBoolean()) {
             throw SecretStreamCorruptedOrTamperedDataException()
         }
-        return DecryptedDataAndTag(dataAndTag.message.toUByteArray(), dataAndTag.tag.toUByte())
+        return DecryptedDataAndTag((dataAndTag as CryptoSecretstreamXchacha20poly1305PullResult).message.toUByteArray(), dataAndTag.tag.toUByte())
 
     }
 
