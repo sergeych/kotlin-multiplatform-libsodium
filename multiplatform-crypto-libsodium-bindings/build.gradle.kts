@@ -302,6 +302,10 @@ kotlin {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
                 implementation(Deps.Common.coroutines)
+
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+//                implementation(kotlin("test"))
+//                implementation(kotlin("test-junit"))
             }
         }
 
@@ -577,6 +581,11 @@ kotlin {
                 dependencies {
 //                    implementation(kotlin(Deps.wasmJs.test))
                     implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+//                    implementation("kotlinx-coroutines-test")
+
+                    implementation(kotlin("test"))
+                    implementation(kotlin("test-junit"))
                 }
             }
 
