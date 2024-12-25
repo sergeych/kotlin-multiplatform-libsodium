@@ -17,10 +17,12 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
-import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 
 plugins {
     kotlin(PluginsDeps.multiplatform)
@@ -702,16 +704,15 @@ tasks {
 
     }
 
-    val jvmTest by getting(Test::class) {
-        testLogging {
-            events("PASSED", "FAILED", "SKIPPED")
-            exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = true
-            showStackTraces = true
-        }
-    }
-
     if (getHostOsName() == "linux" && getHostArchitecture() == "x86-64") {
+        val jvmTest by getting(Test::class) {
+            testLogging {
+                events("PASSED", "FAILED", "SKIPPED")
+                exceptionFormat = TestExceptionFormat.FULL
+                showStandardStreams = true
+                showStackTraces = true
+            }
+        }
 
         val linuxX64Test by getting(KotlinNativeTest::class) {
 

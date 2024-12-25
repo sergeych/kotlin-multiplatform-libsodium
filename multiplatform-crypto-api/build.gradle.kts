@@ -17,6 +17,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 
 plugins {
@@ -39,6 +40,19 @@ kotlin {
     val hostOsName = getHostOsName()
     runningOnLinuxx86_64 {
         jvm()
+
+        // TODO: wasm тут копирует не апишный, если поменялся тот, то поменять и тут
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChromeHeadless()
+                    }
+                }
+            }
+        }
+
         js(IR) {
            browser {
                 testTask {
@@ -139,6 +153,22 @@ kotlin {
                 dependencies {
                     implementation(kotlin(Deps.Js.test))
                 }
+            }
+        }
+
+        // TODO: может сунуть обратно в ранинг онг линукс, как и то, что выше
+        val wasmJsMain by getting {
+            dependencies {
+                // implementation(kotlin(Deps.wasmJs.stdLib))
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+            }
+        }
+        val wasmJsTest by getting {
+            dependencies {
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+
+                implementation(kotlin("test"))
             }
         }
 
