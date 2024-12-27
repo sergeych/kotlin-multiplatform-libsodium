@@ -17,6 +17,7 @@ class SmokeTest {
     //TODO Browser ignores our testBlocking, node works fine though
     @Test
     fun testIfLibraryIsNotOnFire() {
+        throw Exception("aoaoao")
         testBlocking {
             LibsodiumInitializer.initialize()
             val hashResult = GenericHash.genericHash("Hello".encodeToUByteArray(), 64)

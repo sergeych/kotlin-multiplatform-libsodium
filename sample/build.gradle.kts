@@ -17,9 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
-import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 
 plugins {
@@ -80,6 +80,36 @@ kotlin {
 
             binaries.executable()
 
+        }
+
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                webpackTask {
+
+                }
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
+            binaries.executable()
+//            browser {
+//                val rootDirPath = project.rootDir.path
+//                val projectDirPath = project.projectDir.path
+//                commonWebpackConfig {
+//                    outputFileName = "composeApp.js"
+//                    devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+////                        static = (static ?: mutableListOf()).apply {
+////                            // Serve sources to debug inside browser
+////                            add(rootDirPath)
+////                            add(projectDirPath)
+////                        }
+//                    }
+//                }
+//            }
+//            binaries.executable()
         }
 
 
@@ -204,6 +234,22 @@ kotlin {
                 implementation(kotlin(Deps.Jvm.test))
                 implementation(kotlin(Deps.Jvm.testJUnit))
                 implementation(kotlin(Deps.Jvm.reflection))
+            }
+        }
+
+        val wasmJsMain by getting {
+            dependencies {
+                // implementation(kotlin(Deps.wasmJs.stdLib))
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+            }
+        }
+        val wasmJsTest by getting {
+            dependencies {
+                dependsOn(commonTest)
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+
+                implementation(kotlin("test"))
             }
         }
 

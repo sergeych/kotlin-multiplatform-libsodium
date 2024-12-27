@@ -306,7 +306,7 @@ kotlin {
                 implementation(Deps.Common.coroutines)
 
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-//                implementation(kotlin("test"))
+                implementation(kotlin("test"))
 //                implementation(kotlin("test-junit"))
             }
         }
@@ -332,6 +332,24 @@ kotlin {
             dependencies {
             }
         }
+
+        // TODO: это скопипасчено с блока runningOnLinuxx86_64 (примерно 590 строка)
+        val wasmJsMain by getting {
+            dependencies {
+                // implementation(kotlin(Deps.wasmJs.stdLib))
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+            }
+        }
+        val wasmJsTest by getting {
+            dependencies {
+                dependsOn(commonTest)
+                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+
+                implementation(kotlin("test"))
+            }
+        }
+
 
         //Set up shared source sets
         //linux, linuxArm32Hfp, linuxArm64
@@ -572,25 +590,6 @@ kotlin {
         runningOnLinuxx86_64 {
             println("Configuring Linux 64 Bit source sets")
 
-            val wasmJsMain by getting {
-                // TODO: разобраться (и с test)
-                dependencies {
-                    // implementation(kotlin(Deps.wasmJs.stdLib))
-                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-                }
-            }
-            val wasmJsTest by getting {
-                dependencies {
-//                    implementation(kotlin(Deps.wasmJs.test))
-                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-//                    implementation("kotlinx-coroutines-test")
-
-                    implementation(kotlin("test"))
-                    implementation(kotlin("test-junit"))
-                }
-            }
-
             val jsMain by getting {
                 dependencies {
                     implementation(kotlin(Deps.Js.stdLib))
@@ -742,12 +741,12 @@ tasks {
 //        }
 
         // TODO: ваще не жс тест, помогите
-//        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
-//            testLogging {
-//                events("PASSED", "FAILED", "SKIPPED")
-//                showStandardStreams = true
-//            }
-//        }
+        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
+            testLogging {
+                events("PASSED", "FAILED", "SKIPPED")
+                showStandardStreams = true
+            }
+        }
 
         val jsBrowserTest by getting(KotlinJsTest::class) {
             testLogging {
