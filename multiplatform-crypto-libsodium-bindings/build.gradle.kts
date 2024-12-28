@@ -407,7 +407,7 @@ kotlin {
                         )
                     )
 
-                    compilations.getByName("main") {
+                    this@withType.compilations.getByName("main") {
                         val libsodiumCinterop by cinterops.creating {
                             defFile(projectRef.file("src/nativeInterop/cinterop/libsodium.def"))
                             compilerOpts.add("-I${projectRef.rootDir}/sodiumWrapper/static-arm64/include/")

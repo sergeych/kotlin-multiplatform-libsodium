@@ -16,7 +16,7 @@
 
 object Versions {
     val kotlinCoroutines = "1.8.0"
-    val kotlin = "1.9.23"
+    val kotlin = "2.0.21"
     val kotlinSerialization = "1.6.3"
     val kotlinSerializationPlugin = kotlin
     val taskTreePlugin = "1.5"

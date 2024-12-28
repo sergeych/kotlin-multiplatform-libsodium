@@ -2,12 +2,7 @@ package ext.libsodium.com.ionspin.kotlin.crypto
 
 import com.ionspin.kotlin.crypto.getSodiumLoaded
 import com.ionspin.kotlin.crypto.sodiumLoaded
-import ext.libsodium._libsodiumPromise
-import ext.libsodium.crypto_generichash
-import ext.libsodium.crypto_hash_sha256
-import ext.libsodium.crypto_hash_sha256_init
-import ext.libsodium.crypto_hash_sha512
-import ext.libsodium.sodium_init
+import ext.libsodium.*
 import kotlin.coroutines.suspendCoroutine
 
 /**
@@ -50,12 +45,13 @@ object JsSodiumLoader {
         }
     }
 
-    fun loadWithCallback(doneCallback: () -> (JsAny)) {
+    fun loadWithCallback(doneCallback: () -> (Unit)) {
         if (!getSodiumLoaded()) {
-            _libsodiumPromise.then<JsAny> {
+            _libsodiumPromise.then<JsAny?> {
                 sodium_init()
                 sodiumLoaded = true
                 doneCallback.invoke()
+                null
             }
         } else {
             doneCallback.invoke()
