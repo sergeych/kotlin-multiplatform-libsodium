@@ -32,11 +32,11 @@ object JsSodiumLoader {
                 continuation.resumeWith(Result.success(Unit))
                 null
             }.catch { e ->
-                val throwable = e as? Throwable
+                val throwable = e.toThrowableOrNull()
                 if (throwable != null) {
                     continuation.resumeWith(Result.failure(throwable))
                 } else {
-                    continuation.resumeWith(Result.failure(Exception("Error: $e")))
+                    continuation.resumeWith(Result.failure(Throwable("Unknown error", throwable)))
                 }
                 null
             }
