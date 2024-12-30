@@ -1,5 +1,4 @@
 @file:JsModule("libsodium-sumo")
-//@file:JsNonModule
 package ext.libsodium
 
 import org.khronos.webgl.Uint8Array
@@ -13,7 +12,7 @@ import kotlin.js.Promise
  */
 
 @JsName("ready")
-external val _libsodiumPromise : Promise<JsAny>
+external val _libsodiumPromise : Promise<JsAny?>
 
 @JsName("_sodium_init")
 external fun sodium_init() : Int
