@@ -4,7 +4,6 @@ import com.ionspin.kotlin.crypto.generichash.GenericHash
 import com.ionspin.kotlin.crypto.util.encodeToUByteArray
 import com.ionspin.kotlin.crypto.util.testBlocking
 import com.ionspin.kotlin.crypto.util.toHexString
-import com.ionspin.kotlin.crypto.util.runTest
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -17,7 +16,6 @@ class SmokeTest {
     //TODO Browser ignores our testBlocking, node works fine though
     @Test
     fun testIfLibraryIsNotOnFire() {
-        throw Exception("aoaoao")
         testBlocking {
             LibsodiumInitializer.initialize()
             val hashResult = GenericHash.genericHash("Hello".encodeToUByteArray(), 64)

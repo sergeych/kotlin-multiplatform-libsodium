@@ -1,7 +1,6 @@
 package ext.libsodium.com.ionspin.kotlin.crypto
 
 
-import com.ionspin.kotlin.crypto.box.BoxKeyPair
 import org.khronos.webgl.Uint8Array
 
 /**
@@ -11,9 +10,13 @@ import org.khronos.webgl.Uint8Array
  */
 
 @JsModule("libsodium-wrappers-sumo")
-external object JsSodiumInterface {
+external object JsSodium: JsAny {
+    @JsName("default")
+    val default : JsSodiumInterface
+}
 
-
+@JsModule("libsodium-wrappers-sumo")
+external object JsSodiumInterface: JsAny {
     @JsName("crypto_generichash")
     fun crypto_generichash(hashLength: Int, inputMessage: Uint8Array, key: Uint8Array): Uint8Array
 

@@ -1,11 +1,12 @@
 package com.ionspin.kotlin.crypto
 
+import ext.libsodium.com.ionspin.kotlin.crypto.JsSodium
 import ext.libsodium.com.ionspin.kotlin.crypto.JsSodiumInterface
 import ext.libsodium.com.ionspin.kotlin.crypto.JsSodiumLoader
 
 var sodiumLoaded: Boolean = false
 
-fun getSodium() : JsSodiumInterface = JsSodiumInterface
+fun getSodium() : JsSodiumInterface = JsSodium.default
 
 fun getSodiumLoaded() : Boolean = sodiumLoaded
 
