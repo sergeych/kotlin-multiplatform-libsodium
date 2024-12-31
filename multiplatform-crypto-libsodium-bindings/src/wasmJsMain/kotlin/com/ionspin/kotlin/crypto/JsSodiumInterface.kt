@@ -97,9 +97,6 @@ external object JsSodiumInterface: JsAny {
     @JsName("crypto_secretstream_xchacha20poly1305_init_push")
     fun crypto_secretstream_xchacha20poly1305_init_push(key: Uint8Array) : SecretStreamStateAndHeaderType
     @JsName("crypto_secretstream_xchacha20poly1305_push")
-    // TODO: два варианта:                      \/
-    //  1. Меняем юбайт на байт и юинт на инт   \/
-    //  2. Меняем юбайт на инт и юинт на лонг   \/    и далее по списку
     fun crypto_secretstream_xchacha20poly1305_push(state: SecretStreamStateType, message: Uint8Array, associatedData: Uint8Array, tag: Byte) : Uint8Array
 
     //decrypt

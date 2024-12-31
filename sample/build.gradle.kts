@@ -81,7 +81,6 @@ kotlin {
             binaries.executable()
 
         }
-
         @OptIn(ExperimentalWasmDsl::class)
         wasmJs {
             browser {
@@ -95,24 +94,7 @@ kotlin {
                 }
             }
             binaries.executable()
-//            browser {
-//                val rootDirPath = project.rootDir.path
-//                val projectDirPath = project.projectDir.path
-//                commonWebpackConfig {
-//                    outputFileName = "composeApp.js"
-//                    devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-////                        static = (static ?: mutableListOf()).apply {
-////                            // Serve sources to debug inside browser
-////                            add(rootDirPath)
-////                            add(projectDirPath)
-////                        }
-//                    }
-//                }
-//            }
-//            binaries.executable()
         }
-
-
         linuxX64("linux") {
             binaries {
                 executable {
@@ -213,6 +195,8 @@ kotlin {
             dependencies {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
+                implementation(Deps.Common.coroutinesTest)
+                implementation(kotlin("test"))
             }
         }
 
@@ -236,23 +220,6 @@ kotlin {
                 implementation(kotlin(Deps.Jvm.reflection))
             }
         }
-
-        val wasmJsMain by getting {
-            dependencies {
-                // implementation(kotlin(Deps.wasmJs.stdLib))
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-            }
-        }
-        val wasmJsTest by getting {
-            dependencies {
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-
-                implementation(kotlin("test"))
-            }
-        }
-
-
 
 //        val nativeMain by creating {
 //            dependsOn(commonMain)
@@ -327,7 +294,16 @@ kotlin {
                     implementation(kotlin(Deps.Js.test))
                 }
             }
-
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
             val linuxMain by getting {
                 dependsOn(nativeMain)
             }

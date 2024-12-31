@@ -22,7 +22,6 @@ object JsSodiumLoader {
 
     }
 
-    // TODO: попробовать сделать из этого suspend вместо continuation
     suspend fun load(): Unit = suspendCoroutine { continuation ->
         if (!getSodiumLoaded()) {
             _libsodiumPromise.then<JsAny?> {

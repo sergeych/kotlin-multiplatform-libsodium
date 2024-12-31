@@ -16,6 +16,7 @@
 
 object Versions {
     val kotlinCoroutines = "1.8.0"
+    val kotlinCoroutinesTest = "1.9.0"
     val kotlin = "2.0.21"
     val kotlinSerialization = "1.6.3"
     val kotlinSerializationPlugin = kotlin
@@ -46,6 +47,7 @@ object Deps {
         val test = "test-common"
         val testAnnotation = "test-annotations-common"
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
+        val coroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.kotlinCoroutinesTest}"
         val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.kotlinSerialization}"
 
         val kotlinBigNum = "com.ionspin.kotlin:bignum:${Versions.kotlinBigNumVersion}"
@@ -73,13 +75,6 @@ object Deps {
     }
 
     object wasmJs {
-//        val stdLib = "stdlib-wasm"
-//        val test = "test-wasm"
-        // TODO: написано от балды \/
-//        val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core-js:${Versions.kotlinCoroutines}"
-//        val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-runtime-js:${Versions.kotlinSerialization}"
-
-
         object Npm {
             val libsodiumWrappers = Pair("libsodium-wrappers-sumo", "0.7.13")
 

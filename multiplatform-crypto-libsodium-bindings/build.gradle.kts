@@ -18,6 +18,7 @@
 @file:Suppress("UnstableApiUsage")
 
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
@@ -88,19 +89,10 @@ kotlin {
     }
 
     jvm()
+
     val projectRef = project
     runningOnLinuxx86_64 {
         println("Configuring Linux X86-64 targets")
-
-        wasmJs {
-            browser {
-                testTask {
-                    useKarma {
-                        useChromeHeadless()
-                    }
-                }
-            }
-        }
 
         js {
             browser {
@@ -119,6 +111,18 @@ kotlin {
             }
 
         }
+
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
+        }
+
         linuxX64() {
             compilations.getByName("main") {
                 val libsodiumCinterop by cinterops.creating {
@@ -302,10 +306,8 @@ kotlin {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
                 implementation(Deps.Common.coroutines)
-
-//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+                implementation(Deps.Common.coroutinesTest)
                 implementation(kotlin("test"))
-//                implementation(kotlin("test-junit"))
             }
         }
 
@@ -330,24 +332,6 @@ kotlin {
             dependencies {
             }
         }
-
-        // TODO: это скопипасчено с блока runningOnLinuxx86_64 (примерно 590 строка)
-        val wasmJsMain by getting {
-            dependencies {
-                // implementation(kotlin(Deps.wasmJs.stdLib))
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-            }
-        }
-        val wasmJsTest by getting {
-            dependencies {
-                dependsOn(commonTest)
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-
-                implementation(kotlin("test"))
-            }
-        }
-
 
         //Set up shared source sets
         //linux, linuxArm32Hfp, linuxArm64
@@ -600,6 +584,17 @@ kotlin {
                     implementation(npm(Deps.Js.Npm.libsodiumWrappers.first, Deps.Js.Npm.libsodiumWrappers.second))
                 }
             }
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
+                }
+            }
             val linuxX64Main by getting {
                 isRunningInIdea {
                     kotlin.srcDir("src/nativeMain/kotlin")
@@ -738,13 +733,12 @@ tasks {
 //            }
 //        }
 
-        // TODO: ваще не жс тест, помогите
-        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
-            testLogging {
-                events("PASSED", "FAILED", "SKIPPED")
-                showStandardStreams = true
-            }
-        }
+//        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
+//            testLogging {
+//                events("PASSED", "FAILED", "SKIPPED")
+//                showStandardStreams = true
+//            }
+//        }
 
         val jsBrowserTest by getting(KotlinJsTest::class) {
             testLogging {

@@ -41,18 +41,6 @@ kotlin {
     runningOnLinuxx86_64 {
         jvm()
 
-        // TODO: wasm тут копирует не апишный, если поменялся тот, то поменять и тут
-        @OptIn(ExperimentalWasmDsl::class)
-        wasmJs {
-            browser {
-                testTask {
-                    useKarma {
-                        useChrome()
-                    }
-                }
-            }
-        }
-
         js(IR) {
            browser {
                 testTask {
@@ -70,6 +58,16 @@ kotlin {
                 }
             }
 
+        }
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
         }
         linuxX64("linux") {
             binaries {
@@ -126,6 +124,8 @@ kotlin {
             dependencies {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
+                implementation(Deps.Common.coroutinesTest)
+                implementation(kotlin("test"))
             }
         }
 
@@ -154,24 +154,17 @@ kotlin {
                     implementation(kotlin(Deps.Js.test))
                 }
             }
-        }
-
-        // TODO: может сунуть обратно в ранинг онг линукс, как и то, что выше
-        val wasmJsMain by getting {
-            dependencies {
-                // implementation(kotlin(Deps.wasmJs.stdLib))
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
             }
         }
-        val wasmJsTest by getting {
-            dependencies {
-                implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
-
-                implementation(kotlin("test"))
-            }
-        }
-
         runningOnMacos {
             val tvosX64Main by getting {
                 dependsOn(commonMain)
