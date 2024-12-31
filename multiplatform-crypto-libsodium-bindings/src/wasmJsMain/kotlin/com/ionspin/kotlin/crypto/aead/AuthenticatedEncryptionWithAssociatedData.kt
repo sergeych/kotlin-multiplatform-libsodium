@@ -3,7 +3,6 @@ package com.ionspin.kotlin.crypto.aead
 import com.ionspin.kotlin.crypto.getSodium
 import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
-import org.khronos.webgl.Uint8Array
 
 actual object AuthenticatedEncryptionWithAssociatedData {
 
@@ -131,8 +130,8 @@ actual object AuthenticatedEncryptionWithAssociatedData {
             key.toUInt8Array(),
         )
         return AeadEncryptedDataAndTag(
-            (result.ciphertext as Uint8Array).toUByteArray(),
-            (result.mac as Uint8Array).toUByteArray()
+            result.ciphertext.toUByteArray(),
+            result.mac.toUByteArray()
         )
     }
 
@@ -205,8 +204,8 @@ actual object AuthenticatedEncryptionWithAssociatedData {
             key.toUInt8Array(),
         )
         return AeadEncryptedDataAndTag(
-            (result.ciphertext as Uint8Array).toUByteArray(),
-            (result.mac as Uint8Array).toUByteArray()
+            result.ciphertext.toUByteArray(),
+            result.mac.toUByteArray()
         )
     }
 

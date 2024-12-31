@@ -1,58 +1,50 @@
 package ext.libsodium.com.ionspin.kotlin.crypto
 
-
 import org.khronos.webgl.Uint8Array
 
-//TODO: может быть стоит поудалять ненужное
+
+external object Sha256StateType: JsAny
+external object Sha512StateType: JsAny
 
 external object SignatureStateType: JsAny
 
-external object Chacha20poly1305EncryptDetachedResult : JsAny {
+external object AeadEncryptedType : JsAny {
     val ciphertext: Uint8Array
     var mac: Uint8Array
 }
 
-external object CryptoBoxDetachedResult : JsAny {
+external object BoxEncryptedType : JsAny {
     val ciphertext: Uint8Array
     var mac: Uint8Array
 }
 
-//external object CryptoBoxKeypairResult: JsAny {
-//    val publicKey: Uint8Array
-//    val privateKey: Uint8Array
-//}
-
-external object CryptoKxClientSessionKeysResult: JsAny {
+external object KeyExchangeSessionKeyPairType: JsAny {
     val sharedRx: Uint8Array
     val sharedTx: Uint8Array
 }
 
-//external object CryptoKxKeypairResult: JsAny {
-//    val publicKey: Uint8Array
-//    val privateKey: Uint8Array
-//}
-
-external object Keypair: JsAny {
+external object KeyExchangeKeyPairType: JsAny {
     val publicKey: Uint8Array
     val privateKey: Uint8Array
 }
-//
-external object CryptoKxServerSessionKeysResult: JsAny {
-    val sharedRx: Uint8Array
-    val sharedTx: Uint8Array
-}
 
-external object CryptoSecretboxDetachedResult: JsAny {
+external object SecretBoxEncryptedType: JsAny {
     val cipher: Uint8Array
     val mac: Uint8Array
 }
 
-external object CryptoSecretstreamXchacha20poly1305InitPushResult: JsAny {
-    val state: Uint8Array
+external object SecretStreamStateType: JsAny
+
+external object SecretStreamStateAndHeaderType: JsAny {
+    val state: SecretStreamStateType
     val header: Uint8Array
 }
 
-external object CryptoSecretstreamXchacha20poly1305PullResult: JsAny {
+external object DecryptedDataAndTagType: JsAny {
     val message: Uint8Array
     val tag: Byte
 }
+
+external object GenericHashStateInternalType: JsAny
+
+external object Blake2bInternalStateType: JsAny

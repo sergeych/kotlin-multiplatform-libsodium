@@ -3,7 +3,6 @@ package com.ionspin.kotlin.crypto.secretbox
 import com.ionspin.kotlin.crypto.getSodium
 import ext.libsodium.com.ionspin.kotlin.crypto.toUByteArray
 import ext.libsodium.com.ionspin.kotlin.crypto.toUInt8Array
-import org.khronos.webgl.Uint8Array
 
 actual object SecretBox {
     actual fun easy(message: UByteArray, nonce: UByteArray, key: UByteArray): UByteArray {
@@ -25,7 +24,7 @@ actual object SecretBox {
                 nonce.toUInt8Array(),
                 key.toUInt8Array()
             )
-            return (decryptionResult as Uint8Array).toUByteArray()
+            return decryptionResult.toUByteArray()
         } catch (error: Throwable) {
             throw SecretBoxCorruptedOrTamperedDataExceptionOrInvalidKey()
         }
@@ -60,7 +59,7 @@ actual object SecretBox {
                 nonce.toUInt8Array(),
                 key.toUInt8Array()
             )
-            return (decryptionResult as Uint8Array).toUByteArray()
+            return decryptionResult.toUByteArray()
         } catch (error: Throwable) {
             throw SecretBoxCorruptedOrTamperedDataExceptionOrInvalidKey()
         }

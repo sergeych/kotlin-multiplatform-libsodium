@@ -28,7 +28,6 @@ object JsSodiumLoader {
             _libsodiumPromise.then<JsAny?> {
                 sodium_init()
                 sodiumLoaded = true
-                //Dynamic может быть Юнит, но Unit не может быть JsAny?
                 continuation.resumeWith(Result.success(Unit))
                 null
             }.catch { e ->

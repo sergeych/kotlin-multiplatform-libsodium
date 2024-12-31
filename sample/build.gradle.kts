@@ -245,7 +245,6 @@ kotlin {
         }
         val wasmJsTest by getting {
             dependencies {
-                dependsOn(commonTest)
                 implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
 
