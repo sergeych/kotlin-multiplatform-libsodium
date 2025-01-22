@@ -17,6 +17,7 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 
 plugins {
@@ -39,6 +40,7 @@ kotlin {
     val hostOsName = getHostOsName()
     runningOnLinuxx86_64 {
         jvm()
+
         js(IR) {
            browser {
                 testTask {
@@ -56,6 +58,16 @@ kotlin {
                 }
             }
 
+        }
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
         }
         linuxX64("linux") {
             binaries {
@@ -112,6 +124,8 @@ kotlin {
             dependencies {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
+                implementation(Deps.Common.coroutinesTest)
+                implementation(kotlin("test"))
             }
         }
 
@@ -140,8 +154,17 @@ kotlin {
                     implementation(kotlin(Deps.Js.test))
                 }
             }
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
         }
-
         runningOnMacos {
             val tvosX64Main by getting {
                 dependsOn(commonMain)

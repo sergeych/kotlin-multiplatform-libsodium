@@ -19,6 +19,7 @@ pluginManagement {
     repositories {
         mavenCentral()
         maven("https://plugins.gradle.org/m2/")
+        gradlePluginPortal()
     }
 
     resolutionStrategy {
@@ -27,6 +28,11 @@ pluginManagement {
                 useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
             }
         }
+    }
+
+    plugins {
+        kotlin("multiplatform") version "2.0.21"
+        kotlin("plugin.serialization") version "2.0.0"
     }
 }
 rootProject.name = "KotlinMultiplatformLibsodium"

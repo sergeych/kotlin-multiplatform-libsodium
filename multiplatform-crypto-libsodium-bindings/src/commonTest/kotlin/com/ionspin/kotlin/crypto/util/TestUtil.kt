@@ -36,6 +36,6 @@ fun testBlocking(block : suspend () -> Unit) {
     block.startCoroutine(continuation)
 }
 
-expect fun runTest(block: suspend (scope : CoroutineScope) -> Unit)
+fun runTest(block: suspend (scope : CoroutineScope) -> Unit) = kotlinx.coroutines.test.runTest { block(this) }
 
 

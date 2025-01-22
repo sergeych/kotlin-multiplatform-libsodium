@@ -17,9 +17,9 @@
 
 @file:Suppress("UnstableApiUsage")
 
-import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
-import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
 import org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask
 
 plugins {
@@ -81,8 +81,20 @@ kotlin {
             binaries.executable()
 
         }
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                webpackTask {
 
-
+                }
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
+            binaries.executable()
+        }
         linuxX64("linux") {
             binaries {
                 executable {
@@ -183,6 +195,8 @@ kotlin {
             dependencies {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
+                implementation(Deps.Common.coroutinesTest)
+                implementation(kotlin("test"))
             }
         }
 
@@ -206,8 +220,6 @@ kotlin {
                 implementation(kotlin(Deps.Jvm.reflection))
             }
         }
-
-
 
 //        val nativeMain by creating {
 //            dependsOn(commonMain)
@@ -282,7 +294,16 @@ kotlin {
                     implementation(kotlin(Deps.Js.test))
                 }
             }
-
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
             val linuxMain by getting {
                 dependsOn(nativeMain)
             }

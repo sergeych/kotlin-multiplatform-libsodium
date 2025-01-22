@@ -17,10 +17,11 @@
 
 @file:Suppress("UnstableApiUsage")
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.targets.js.testing.KotlinJsTest
 import org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeTest
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 
 plugins {
     kotlin(PluginsDeps.multiplatform)
@@ -88,10 +89,10 @@ kotlin {
     }
 
     jvm()
+
     val projectRef = project
     runningOnLinuxx86_64 {
         println("Configuring Linux X86-64 targets")
-
 
         js {
             browser {
@@ -110,6 +111,18 @@ kotlin {
             }
 
         }
+
+        @OptIn(ExperimentalWasmDsl::class)
+        wasmJs {
+            browser {
+                testTask {
+                    useKarma {
+                        useChrome()
+                    }
+                }
+            }
+        }
+
         linuxX64() {
             compilations.getByName("main") {
                 val libsodiumCinterop by cinterops.creating {
@@ -293,6 +306,8 @@ kotlin {
                 implementation(kotlin(Deps.Common.test))
                 implementation(kotlin(Deps.Common.testAnnotation))
                 implementation(Deps.Common.coroutines)
+                implementation(Deps.Common.coroutinesTest)
+                implementation(kotlin("test"))
             }
         }
 
@@ -374,7 +389,7 @@ kotlin {
                         )
                     )
 
-                    compilations.getByName("main") {
+                    this@withType.compilations.getByName("main") {
                         val libsodiumCinterop by cinterops.creating {
                             defFile(projectRef.file("src/nativeInterop/cinterop/libsodium.def"))
                             compilerOpts.add("-I${projectRef.rootDir}/sodiumWrapper/static-arm64/include/")
@@ -557,7 +572,6 @@ kotlin {
         runningOnLinuxx86_64 {
             println("Configuring Linux 64 Bit source sets")
 
-
             val jsMain by getting {
                 dependencies {
                     implementation(kotlin(Deps.Js.stdLib))
@@ -568,6 +582,17 @@ kotlin {
                 dependencies {
                     implementation(kotlin(Deps.Js.test))
                     implementation(npm(Deps.Js.Npm.libsodiumWrappers.first, Deps.Js.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsMain by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                }
+            }
+            val wasmJsTest by getting {
+                dependencies {
+                    implementation(npm(Deps.wasmJs.Npm.libsodiumWrappers.first, Deps.wasmJs.Npm.libsodiumWrappers.second))
+                    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.9.0")
                 }
             }
             val linuxX64Main by getting {
@@ -671,16 +696,15 @@ tasks {
 
     }
 
-    val jvmTest by getting(Test::class) {
-        testLogging {
-            events("PASSED", "FAILED", "SKIPPED")
-            exceptionFormat = TestExceptionFormat.FULL
-            showStandardStreams = true
-            showStackTraces = true
-        }
-    }
-
     if (getHostOsName() == "linux" && getHostArchitecture() == "x86-64") {
+        val jvmTest by getting(Test::class) {
+            testLogging {
+                events("PASSED", "FAILED", "SKIPPED")
+                exceptionFormat = TestExceptionFormat.FULL
+                showStandardStreams = true
+                showStackTraces = true
+            }
+        }
 
         val linuxX64Test by getting(KotlinNativeTest::class) {
 
@@ -703,6 +727,13 @@ tasks {
 
 //        val legacyjsNodeTest by getting(KotlinJsTest::class) {
 //
+//            testLogging {
+//                events("PASSED", "FAILED", "SKIPPED")
+//                showStandardStreams = true
+//            }
+//        }
+
+//        val wasmJsBrowserTest by getting(KotlinJsTest::class) {
 //            testLogging {
 //                events("PASSED", "FAILED", "SKIPPED")
 //                showStandardStreams = true

@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.23")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.21")
     implementation("com.android.tools.build:gradle:7.2.2")
     implementation ("org.jetbrains.dokka:dokka-gradle-plugin:1.9.20")
 }
