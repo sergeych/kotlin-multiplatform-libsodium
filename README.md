@@ -146,7 +146,7 @@ Currently supported native platforms (Apple Silicon is supported since 0.8.5) :
 Android .so files come from running dist-build scripts in libsodium which you can find in the libsodium submodule
 Java Linux Arm/X86_64 and Mac so and dylib are the same as produced by multiplatform builds, also based on the same submodule commit
 Java Windows dll is from https://download.libsodium.org/libsodium/releases/libsodium-1.0.19-stable-msvc.zip
-Javascript is from libsodium-wrappers-sumo npm package version 0.7.13 (https://github.com/jedisct1/libsodium.js)
+Javascript and WebAssembly is from libsodium-wrappers-sumo npm package version 0.7.13 (https://github.com/jedisct1/libsodium.js)
 
 ### TODO:
 - Improve documentation
@@ -156,7 +156,7 @@ Javascript is from libsodium-wrappers-sumo npm package version 0.7.13 (https://g
 - Find a better way of fetching Konan dependencies than having a dummy project.
 
 ### Building
-Clone the git, init the submodule and run `./gradlew build`. Note that current build settings are such that only linux builds `js` target.
+Clone the git, init the submodule and run `./gradlew build`. Note that current build settings are such that only linux builds `js` and `wasmJs` targets.
 
 #### Notes for Github runners:
 - At the moment all runners need to have android sdk present even though not all are building Android build
