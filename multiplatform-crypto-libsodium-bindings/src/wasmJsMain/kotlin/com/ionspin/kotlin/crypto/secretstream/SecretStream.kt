@@ -38,6 +38,8 @@ actual object SecretStream {
         ciphertext: UByteArray,
         associatedData: UByteArray
     ): DecryptedDataAndTag {
+        // crypto_secretstream_xchacha20poly1305_pull JavaScript realization returns either 0
+        // or DecryptedDataAndTagType object, therefore if 0 is returned an identifying exception is thrown
         try {
             val dataAndTag = getSodium().crypto_secretstream_xchacha20poly1305_pull(
                 state, ciphertext.toUInt8Array(), associatedData.toUInt8Array()
