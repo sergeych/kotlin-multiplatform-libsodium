@@ -139,14 +139,14 @@ kotlin {
             }
         }
 
-        if (ideaActive.not()) {
+//        if (ideaActive.not()) {
             linuxArm64() {
                 binaries {
                     staticLib {
                     }
                 }
             }
-        }
+//        }
 
     }
 
@@ -339,11 +339,11 @@ kotlin {
             "linuxX64"
         )
         val linuxArm64Bit = setOf(
-            if (ideaActive.not()) {
+//            if (ideaActive.not()) {
                 "linuxArm64"
-            } else {
-                ""
-            }
+//            } else {
+//                ""
+//            }
         )
 
         //iosArm64, iosX64, macosX64, metadata, tvosArm64, tvosX64, watchosArm32, watchosArm64
@@ -382,22 +382,15 @@ kotlin {
                     defaultSourceSet.dependsOn(nativeMain)
                 }
                 if (linuxArm64Bit.contains(this@withType.name)) {
-                    defaultSourceSet.dependsOn(
-                        createWorkaroundNativeMainSourceSet(
-                            this@withType.name,
-                            nativeDependencies
-                        )
-                    )
+                    defaultSourceSet.dependsOn(nativeMain)
 
-                    this@withType.compilations.getByName("main") {
-                        val libsodiumCinterop by cinterops.creating {
-                            defFile(projectRef.file("src/nativeInterop/cinterop/libsodium.def"))
-                            compilerOpts.add("-I${projectRef.rootDir}/sodiumWrapper/static-arm64/include/")
-                        }
-                        kotlinOptions.freeCompilerArgs = listOf(
-                            "-include-binary", "${projectRef.rootDir}/sodiumWrapper/static-arm64/lib/libsodium.a"
-                        )
+                    val libsodiumCinterop by cinterops.creating {
+                        defFile(projectRef.file("src/nativeInterop/cinterop/libsodium.def"))
+                        compilerOpts.add("-I${projectRef.rootDir}/sodiumWrapper/static-arm64/include/")
                     }
+                    kotlinOptions.freeCompilerArgs = listOf(
+                        "-include-binary", "${projectRef.rootDir}/sodiumWrapper/static-arm64/lib/libsodium.a"
+                    )
                 }
 
                 if (macos64Bit.contains(this@withType.name)) {
